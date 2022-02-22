@@ -12,20 +12,17 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 public abstract class UtilidadesXML {
     //region generar documento
-    private static Document getDocumento(boolean ignoararComentarios, boolean ignorarEspacios) {
+    private static Document getDocumento(boolean ingoreComments, boolean ignoreBlank) {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setIgnoringComments(ignoararComentarios);
-        dbf.setIgnoringElementContentWhitespace(ignorarEspacios);
-        DocumentBuilder documentBuilder = null;
-        Document document = null;
+        dbf.setIgnoringComments(ingoreComments);
+        dbf.setIgnoringElementContentWhitespace(ignoreBlank);
+        DocumentBuilder documentBuilder;
+        Document document=null;
         try {
             documentBuilder = dbf.newDocumentBuilder();
             document = documentBuilder.newDocument();
@@ -38,9 +35,8 @@ public abstract class UtilidadesXML {
     public static Document generaDOMXML(List<Producto> listProducto) {
         Document domDoc = getDocumento(true, true);
         Element parent = domDoc.createElement("productos");
-        listProducto.forEach(p -> {
-            appendProduct(domDoc, parent, p);
-        });
+        domDoc.appendChild(parent);
+        listProducto.forEach(p -> appendProduct(domDoc, parent, p));
         return domDoc;
     }
 
@@ -51,9 +47,11 @@ public abstract class UtilidadesXML {
         attributeID.setValue(String.valueOf(producto.getId()));
         pater.setAttributeNode(attributeID);
         Element des = document.createElement("descripcion");
+        des.setTextContent(producto.getDescripcion());
         pater.appendChild(des);
         Element precio = document.createElement("precio");
         precio.setTextContent(String.valueOf(producto.getPrecio()));
+        pater.appendChild(precio);
         Attr stock = document.createAttribute("stock");
         stock.setValue(String.valueOf(producto.getStock()));
         pater.setAttributeNode(stock);
