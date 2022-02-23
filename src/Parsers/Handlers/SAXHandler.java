@@ -19,11 +19,11 @@ public class SAXHandler extends DefaultHandler {
     }
     @Override
     public void startElement(String uri, String nombre, String nombreC, Attributes att){
-        System.out.println("\t{- "+nombreC +"-}");
+        System.out.println("\t<"+nombreC +">");
     }
     @Override
     public void endElement(String uri, String nombre, String nombreC){
-        System.out.println("\t[/ "+nombreC +"]");
+        System.out.println("\t</ "+nombreC +">");
     }
     @Override
     public void characters (char[] ch, int inicio, int longitud)
