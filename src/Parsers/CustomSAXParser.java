@@ -1,6 +1,6 @@
 package Parsers;
 
-import Parsers.Handlers.SAXHandler;
+import Parsers.Handlers.HandlerTablaSAX;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class CustomSAXParser {
     private XMLReader procesadorXML;
-    private SAXHandler gestor;
+    private HandlerTablaSAX gestor;
     private InputSource archivoXML;
 
     public CustomSAXParser(String nombreArchivo) {
@@ -25,7 +25,7 @@ public class CustomSAXParser {
         } catch (SAXException | ParserConfigurationException ex) {
             Logger.getLogger(CustomSAXParser.class.getName()).log(Level.SEVERE, null, ex);
         }
-        gestor = new SAXHandler();
+        gestor = new HandlerTablaSAX();
         procesadorXML.setContentHandler(gestor);
         archivoXML = new InputSource(nombreArchivo);
     }

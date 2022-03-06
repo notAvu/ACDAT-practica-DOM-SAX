@@ -44,7 +44,6 @@ public abstract class UtilidadesXML {
 
     private static void appendProduct(Document document, Element root, Producto producto) {
         Element pater = document.createElement("producto");
-        root.appendChild(pater);
         Attr attributeID = document.createAttribute("id");
         attributeID.setValue(String.valueOf(producto.getId()));
         pater.setAttributeNode(attributeID);
@@ -54,10 +53,10 @@ public abstract class UtilidadesXML {
         Element precio = document.createElement("precio");
         precio.setTextContent(String.valueOf(producto.getPrecio()));
         pater.appendChild(precio);
-        Attr stock = document.createAttribute("stock");
-        stock.setValue(String.valueOf(producto.getStock()));
-        pater.setAttributeNode(stock);
-        pater.setAttribute("stock", String.valueOf(producto.getStock()));
+        Element stock = document.createElement("stock");
+        stock.setTextContent(String.valueOf(producto.getStock()));
+        pater.appendChild(stock);
+        root.appendChild(pater);
     }
 
     //endregion
